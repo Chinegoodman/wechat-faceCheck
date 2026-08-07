@@ -15,7 +15,9 @@
   <view class="mask right"></view>
 
   <view class="header">
-    <view class="close-btn" bindtap="goBack">×</view>
+    <view class="close-btn" bindtap="goBack">
+      <view class="close-icon"></view>
+    </view>
   </view>
 
   <view class="tips">
@@ -28,18 +30,17 @@
   </view>
 
   <view class="footer">
-    <view class="status">{{statusText}}</view>
-    <view class="detect-meta">
-      <text>自动检测：{{detecting ? '运行中' : '未启动'}}</text>
-      <text wx:if="{{detectFrameCount}}">帧数：{{detectFrameCount}}</text>
-      <text wx:if="{{lastFaceBoxText}}">人脸框：{{lastFaceBoxText}}</text>
+    <view class="status-card">
+      <view class="status">{{statusText}}</view>
+      <view class="detect-meta">
+        <text class="detect-pill {{detecting ? 'active' : ''}}">自动检测：{{detecting ? '运行中' : '准备中'}}</text>
+        <text wx:if="{{detectFrameCount}}" class="detect-pill">帧数：{{detectFrameCount}}</text>
+      </view>
+      <view wx:if="{{lastFaceBoxText}}" class="face-box-text">人脸框：{{lastFaceBoxText}}</view>
+      <button wx:if="{{lastCapturePath}}" class="retake-btn" bindtap="retakeFrame" loading="{{capturing}}" disabled="{{capturing || !cameraReady}}">
+        重新抓拍
+      </button>
+      <view wx:if="{{lastCapturePath}}" class="capture-path">最近抓拍：{{lastCapturePath}}</view>
     </view>
-    <button class="capture-btn" bindtap="captureFrame" loading="{{capturing}}" disabled="{{capturing || !cameraReady}}">
-      {{capturing ? '抓拍中...' : '手动抓一帧'}}
-    </button>
-    <button wx:if="{{lastCapturePath}}" class="capture-btn" bindtap="retakeFrame" loading="{{capturing}}" disabled="{{capturing || !cameraReady}}">
-      重新抓拍
-    </button>
-    <view wx:if="{{lastCapturePath}}" class="capture-path">最近抓拍：{{lastCapturePath}}</view>
   </view>
 </view>

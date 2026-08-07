@@ -1,7 +1,8 @@
 <view class="page">
   <view class="content">
+    <view class="hero-icon">✓</view>
     <view class="title">人脸打卡</view>
-    <view class="desc">点击下方按钮进入打卡页</view>
-    <button class="checkin-btn" bindtap="goCheckin">去打卡</button>
+    <view class="desc">靠近手机并保持面部在识别区域内，系统会自动完成抓拍。</view>
+    <button class="checkin-btn" bindtap="goCheckin">开始打卡</button>
   </view>
 </view>

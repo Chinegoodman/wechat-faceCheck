@@ -26,6 +26,8 @@ Page({
     this.hasReceivedFrame = false
     this.pageReady = false
     this.cameraInitDone = false
+    this.isPageActive = true
+    this.frameRetryTimer = null
   },
 
   onReady() {
@@ -33,11 +35,19 @@ Page({
     this.createCameraContextAndStart()
   },
 
+  onShow() {
+    this.isPageActive = true
+    this.hasReceivedFrame = false
+    this.createCameraContextAndStart()
+  },
+
   onUnload() {
+    this.isPageActive = false
     this.stopFrameListener()
   },
 
   onHide() {
+    this.isPageActive = false
     this.stopFrameListener()
   },
 
@@ -61,12 +71,13 @@ Page({
   },
 
   goBack() {
+    this.isPageActive = false
     this.stopFrameListener()
     wx.navigateBack()
   },
 
   createCameraContextAndStart() {
-    if (!this.pageReady || !this.cameraInitDone || this.listenerStarted) {
+    if (!this.isPageActive || !this.pageReady || !this.cameraInitDone || this.listenerStarted) {
       return
     }
 
@@ -82,12 +93,15 @@ Page({
     if (!this.cameraContext.onCameraFrame) {
       this.setData({
         detecting: false,
-        statusText: '当前基础库不支持自动检测，请使用手动抓拍'
+        statusText: '当前基础库不支持自动检测，请升级微信或基础库'
       })
       return
     }
 
     const frameListener = this.cameraContext.onCameraFrame((frame) => {
+      if (!this.isPageActive || !this.listenerStarted) {
+        return
+      }
       this.handleCameraFrame(frame)
     })
 
@@ -107,7 +121,8 @@ Page({
 
           if (error && error.errMsg && error.errMsg.indexOf('camera is not found') !== -1 && this.frameStartRetryCount < 5) {
             this.frameStartRetryCount += 1
-            setTimeout(() => {
+            this.frameRetryTimer = setTimeout(() => {
+              this.frameRetryTimer = null
               this.createCameraContextAndStart()
             }, 300)
             return
@@ -115,7 +130,7 @@ Page({
 
           this.setData({
             detecting: false,
-            statusText: '自动检测启动失败，请使用手动抓拍'
+            statusText: '自动检测启动失败，请退出后重试'
           })
         }
       })
@@ -125,18 +140,31 @@ Page({
       this.frameListener = null
       this.setData({
         detecting: false,
-        statusText: '自动检测启动失败，请使用手动抓拍'
+        statusText: '自动检测启动失败，请退出后重试'
       })
     }
   },
 
   stopFrameListener() {
     this.frameStartRetryCount = 0
+    this.pendingDetect = false
+
+    if (this.frameRetryTimer) {
+      clearTimeout(this.frameRetryTimer)
+      this.frameRetryTimer = null
+    }
 
     if (!this.frameListener || !this.listenerStarted) {
+      this.setData({
+        detecting: false
+      })
       return
     }
 
+    this.listenerStarted = false
+    this.setData({
+      detecting: false
+    })
     this.frameListener.stop({
       complete: () => {
         this.listenerStarted = false
@@ -150,6 +178,10 @@ Page({
   },
 
   handleCameraFrame(frame) {
+    if (!this.isPageActive || !this.listenerStarted) {
+      return
+    }
+
     if (!this.hasReceivedFrame) {
       this.hasReceivedFrame = true
       this.frameStartRetryCount = 0

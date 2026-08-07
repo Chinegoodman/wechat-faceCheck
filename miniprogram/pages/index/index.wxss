@@ -1,6 +1,6 @@
 page {
   min-height: 100vh;
-  background: #f7f8fa;
+  background: linear-gradient(180deg, #e0f2fe 0%, #f8fafc 48%, #ffffff 100%);
 }
 
 .page {
@@ -8,38 +8,83 @@ page {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48rpx;
+  padding: 56rpx 40rpx;
   box-sizing: border-box;
 }
 
 .content {
+  position: relative;
   width: 100%;
-  padding: 72rpx 48rpx;
-  border-radius: 32rpx;
-  background: #ffffff;
-  box-shadow: 0 24rpx 60rpx rgba(15, 23, 42, 0.08);
+  padding: 84rpx 48rpx 56rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.8);
+  border-radius: 42rpx;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 28rpx 80rpx rgba(15, 23, 42, 0.12);
   text-align: center;
+  overflow: hidden;
+}
+
+.content::before {
+  content: '';
+  position: absolute;
+  top: -120rpx;
+  right: -110rpx;
+  width: 260rpx;
+  height: 260rpx;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.16);
+}
+
+.hero-icon {
+  position: relative;
+  z-index: 1;
+  width: 132rpx;
+  height: 132rpx;
+  margin: 0 auto 34rpx;
+  border-radius: 38rpx;
+  line-height: 132rpx;
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
+  box-shadow: 0 22rpx 44rpx rgba(37, 99, 235, 0.28);
 }
 
 .title {
-  font-size: 44rpx;
-  font-weight: 600;
-  color: #111827;
+  position: relative;
+  z-index: 1;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: 2rpx;
 }
 
 .desc {
-  margin-top: 20rpx;
+  position: relative;
+  z-index: 1;
+  margin-top: 22rpx;
   font-size: 28rpx;
-  color: #6b7280;
+  line-height: 1.6;
+  color: #64748b;
 }
 
 .checkin-btn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 72rpx;
-  height: 92rpx;
-  line-height: 92rpx;
+  height: 96rpx;
+  line-height: 1;
   border-radius: 999rpx;
-  background: linear-gradient(135deg, #50b7ff, #3b82f6);
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
   color: #ffffff;
   font-size: 32rpx;
-  font-weight: 600;
+  font-weight: 700;
+  box-shadow: 0 18rpx 42rpx rgba(37, 99, 235, 0.28);
+}
+
+.checkin-btn::after {
+  border: none;
 }
