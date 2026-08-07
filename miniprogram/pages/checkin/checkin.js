@@ -209,10 +209,16 @@ Page({
     Promise.resolve(this.detectFaceBox(frame))
       .then((result) => {
         this.pendingDetect = false
+        if (!this.isPageActive || !this.listenerStarted) {
+          return
+        }
         this.applyDetectionResult(result)
       })
       .catch((error) => {
         this.pendingDetect = false
+        if (!this.isPageActive || !this.listenerStarted) {
+          return
+        }
         console.error('detectFaceBox fail', error)
         this.centerHitStreak = 0
         this.setData({
@@ -250,6 +256,10 @@ Page({
   },
 
   applyDetectionResult(result) {
+    if (!this.isPageActive || !this.listenerStarted || this.autoCaptured) {
+      return
+    }
+
     if (!result || !result.found || !result.box) {
       this.centerHitStreak = 0
       this.setData({
@@ -308,35 +318,41 @@ Page({
 
     this.autoCaptured = false
     this.centerHitStreak = 0
+    this.pendingDetect = false
     this.setData({
       lastCapturePath: '',
       lastFaceBoxText: '',
-      statusText: '正在重新抓拍...'
+      statusText: ''
     })
-    this.captureFrame(false)
   },
 
-  captureFrame(isAuto = false) {
+  captureFrame(isAuto = false, textOptions = {}) {
     if (this.data.capturing || !this.cameraContext) {
       return
     }
 
     this.setData({
       capturing: true,
-      statusText: isAuto ? '检测命中，正在自动抓拍...' : '正在抓取当前画面...'
+      statusText: textOptions.capturingText || (isAuto ? '检测命中，正在自动抓拍...' : '正在抓取当前画面...')
     })
 
     this.cameraContext.takePhoto({
       quality: 'high',
       success: ({ tempImagePath }) => {
+        if (!this.isPageActive) {
+          return
+        }
         console.log('tempImagePath', tempImagePath)
         this.readFileAsBase64(tempImagePath)
         this.setData({
           lastCapturePath: tempImagePath,
-          statusText: isAuto ? '自动抓拍成功，已输出路径和 base64' : '抓拍成功，已输出路径和 base64'
+          statusText: textOptions.successText || (isAuto ? '自动抓拍成功，已输出路径和 base64' : '抓拍成功，已输出路径和 base64')
         })
       },
       fail: (error) => {
+        if (!this.isPageActive) {
+          return
+        }
         console.error('takePhoto fail', error)
         this.autoCaptured = false
         this.setData({
@@ -344,6 +360,9 @@ Page({
         })
       },
       complete: () => {
+        if (!this.isPageActive) {
+          return
+        }
         this.setData({
           capturing: false
         })
@@ -358,9 +377,15 @@ Page({
       filePath,
       encoding: 'base64',
       success: ({ data }) => {
+        if (!this.isPageActive) {
+          return
+        }
         console.log('imageBase64', data)
       },
       fail: (error) => {
+        if (!this.isPageActive) {
+          return
+        }
         console.error('readFile base64 fail', error)
       }
     })

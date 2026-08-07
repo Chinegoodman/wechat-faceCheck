@@ -34,6 +34,7 @@ page {
 }
 
 .close-btn {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,29 +47,19 @@ page {
   backdrop-filter: blur(18rpx);
 }
 
-.close-icon {
-  position: relative;
-  width: 32rpx;
-  height: 32rpx;
-}
-
-.close-icon::before,
-.close-icon::after {
-  content: '';
+.close-line {
   position: absolute;
-  top: 15rpx;
-  left: -4rpx;
   width: 40rpx;
   height: 4rpx;
   border-radius: 999rpx;
   background: #0f172a;
 }
 
-.close-icon::before {
+.line-a {
   transform: rotate(45deg);
 }
 
-.close-icon::after {
+.line-b {
   transform: rotate(-45deg);
 }
 

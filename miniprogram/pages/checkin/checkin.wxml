@@ -14,11 +14,12 @@
   <view class="mask left"></view>
   <view class="mask right"></view>
 
-  <view class="header">
-    <view class="close-btn" bindtap="goBack">
-      <view class="close-icon"></view>
-    </view>
-  </view>
+  <cover-view class="header">
+    <cover-view class="close-btn" bindtap="goBack">
+      <cover-view class="close-line line-a"></cover-view>
+      <cover-view class="close-line line-b"></cover-view>
+    </cover-view>
+  </cover-view>
 
   <view class="tips">
     <view class="title">拿起手机，眨眨眼</view>
