@@ -269,6 +269,21 @@ Page({
     return `x:${box.x.toFixed(2)} y:${box.y.toFixed(2)} w:${box.width.toFixed(2)} h:${box.height.toFixed(2)}`
   },
 
+  retakeFrame() {
+    if (this.data.capturing) {
+      return
+    }
+
+    this.autoCaptured = false
+    this.centerHitStreak = 0
+    this.setData({
+      lastCapturePath: '',
+      lastFaceBoxText: '',
+      statusText: '正在重新抓拍...'
+    })
+    this.captureFrame(false)
+  },
+
   captureFrame(isAuto = false) {
     if (this.data.capturing || !this.cameraContext) {
       return

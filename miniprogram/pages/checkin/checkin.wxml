@@ -37,6 +37,9 @@
     <button class="capture-btn" bindtap="captureFrame" loading="{{capturing}}" disabled="{{capturing || !cameraReady}}">
       {{capturing ? '抓拍中...' : '手动抓一帧'}}
     </button>
+    <button wx:if="{{lastCapturePath}}" class="capture-btn" bindtap="retakeFrame" loading="{{capturing}}" disabled="{{capturing || !cameraReady}}">
+      重新抓拍
+    </button>
     <view wx:if="{{lastCapturePath}}" class="capture-path">最近抓拍：{{lastCapturePath}}</view>
   </view>
 </view>
