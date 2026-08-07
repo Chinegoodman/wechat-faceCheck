@@ -6,6 +6,7 @@ const CENTER_TOLERANCE_X = 0.18
 const CENTER_TOLERANCE_Y = 0.22
 const FACE_SIZE_MIN_RATIO = 0.22
 const FACE_SIZE_MAX_RATIO = 0.72
+const RING_CENTER_OFFSET_RPX = 62
 
 Page({
   data: {
@@ -28,6 +29,7 @@ Page({
     this.cameraInitDone = false
     this.isPageActive = true
     this.frameRetryTimer = null
+    this.captureCenterY = this.getCaptureCenterY()
   },
 
   onReady() {
@@ -295,9 +297,10 @@ Page({
     const centerY = box.y + box.height / 2
     const widthRatio = box.width
     const heightRatio = box.height
+    const targetCenterY = this.captureCenterY || 0.54
 
     const offsetX = Math.abs(centerX - 0.5)
-    const offsetY = Math.abs(centerY - 0.43)
+    const offsetY = Math.abs(centerY - targetCenterY)
 
     return offsetX <= CENTER_TOLERANCE_X
       && offsetY <= CENTER_TOLERANCE_Y
@@ -305,6 +308,14 @@ Page({
       && widthRatio <= FACE_SIZE_MAX_RATIO
       && heightRatio >= FACE_SIZE_MIN_RATIO
       && heightRatio <= FACE_SIZE_MAX_RATIO
+  },
+
+  getCaptureCenterY() {
+    const systemInfo = wx.getSystemInfoSync()
+    const rpxToPx = systemInfo.windowWidth / 750
+    const offsetPx = RING_CENTER_OFFSET_RPX * rpxToPx
+
+    return (systemInfo.windowHeight / 2 + offsetPx) / systemInfo.windowHeight
   },
 
   formatFaceBox(box) {

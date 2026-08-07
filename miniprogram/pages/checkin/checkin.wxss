@@ -23,7 +23,7 @@ page {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(circle 234rpx at 50% calc(50% + 56rpx), transparent 0, transparent 232rpx, rgba(240, 249, 255, 0.72) 234rpx, rgba(240, 249, 255, 0.72) 100%);
+  background: radial-gradient(circle 260rpx at 50% calc(50% + 62rpx), transparent 0, transparent 258rpx, rgba(240, 249, 255, 0.72) 260rpx, rgba(240, 249, 255, 0.72) 100%);
 }
 
 .header {
@@ -99,8 +99,8 @@ page {
   top: 50%;
   left: 50%;
   z-index: 2;
-  width: 468rpx;
-  height: 468rpx;
+  width: 520rpx;
+  height: 520rpx;
   transform: translate(-50%, -38%);
   border-radius: 50%;
   box-sizing: border-box;
