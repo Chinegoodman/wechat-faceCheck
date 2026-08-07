@@ -1,0 +1,42 @@
+<view class="page">
+  <camera
+    id="checkinCamera"
+    class="camera"
+    device-position="front"
+    flash="off"
+    frame-size="medium"
+    bindinitdone="handleCameraReady"
+    binderror="handleCameraError"
+  ></camera>
+
+  <view class="mask top"></view>
+  <view class="mask bottom"></view>
+  <view class="mask left"></view>
+  <view class="mask right"></view>
+
+  <view class="header">
+    <view class="close-btn" bindtap="goBack">×</view>
+  </view>
+
+  <view class="tips">
+    <view class="title">拿起手机，眨眨眼</view>
+    <view class="subtitle">将人脸保持在圆形区域中央</view>
+  </view>
+
+  <view class="capture-ring">
+    <view class="capture-ring-inner"></view>
+  </view>
+
+  <view class="footer">
+    <view class="status">{{statusText}}</view>
+    <view class="detect-meta">
+      <text>自动检测：{{detecting ? '运行中' : '未启动'}}</text>
+      <text wx:if="{{detectFrameCount}}">帧数：{{detectFrameCount}}</text>
+      <text wx:if="{{lastFaceBoxText}}">人脸框：{{lastFaceBoxText}}</text>
+    </view>
+    <button class="capture-btn" bindtap="captureFrame" loading="{{capturing}}" disabled="{{capturing || !cameraReady}}">
+      {{capturing ? '抓拍中...' : '手动抓一帧'}}
+    </button>
+    <view wx:if="{{lastCapturePath}}" class="capture-path">最近抓拍：{{lastCapturePath}}</view>
+  </view>
+</view>

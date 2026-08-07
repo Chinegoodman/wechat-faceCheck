@@ -1,0 +1,45 @@
+page {
+  min-height: 100vh;
+  background: #f7f8fa;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx;
+  box-sizing: border-box;
+}
+
+.content {
+  width: 100%;
+  padding: 72rpx 48rpx;
+  border-radius: 32rpx;
+  background: #ffffff;
+  box-shadow: 0 24rpx 60rpx rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #111827;
+}
+
+.desc {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #6b7280;
+}
+
+.checkin-btn {
+  margin-top: 72rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #50b7ff, #3b82f6);
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 600;
+}
